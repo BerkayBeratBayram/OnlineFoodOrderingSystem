@@ -1,0 +1,96 @@
+CREATE DATABASE restaurant_db;
+CREATE TABLE User (
+    UserID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(20),
+    Address VARCHAR(255)
+);
+
+CREATE TABLE Restaurant (
+    RestaurantID INT PRIMARY KEY,
+    RestaurantName VARCHAR(100),
+    CuisineType VARCHAR(50),
+    RestaurantAddress VARCHAR(255),
+    ContactNumber VARCHAR(20)
+);
+
+CREATE TABLE Staff (
+    StaffID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Position VARCHAR(50),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(20),
+    RestaurantID INT,
+    FOREIGN KEY (RestaurantID) REFERENCES Restaurant(RestaurantID)
+);
+
+CREATE TABLE Menu (
+    ItemID INT PRIMARY KEY,
+    RestaurantID INT,
+    ItemName VARCHAR(100),
+    Price DECIMAL(10, 2),
+    Description TEXT,
+    FOREIGN KEY (RestaurantID) REFERENCES Restaurant(RestaurantID)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2),
+    Status VARCHAR(50),
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+
+CREATE TABLE OrderItem (
+    OrderItemID INT PRIMARY KEY AUTO_INCREMENT,
+    OrderID INT,
+    ItemID INT,
+    Quantity INT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ItemID) REFERENCES Menu(ItemID)
+);
+
+
+
+INSERT INTO user (UserID, FirstName, LastName, Email, PhoneNumber, Address)
+VALUES
+    (1, 'Ahmet', 'Başkan', 'ahmet@gmail.com', '111-111-1111', 'gop'),
+    (2, 'Eren', 'Taşel', 'eren@gmail.com', '222-222-2222', 'sarıyer'),
+    (3, 'Ersun', 'Erdinç', 'ersun@gmail.com', '333-333-3333', 'sarıyer'),
+    (4, 'Nil', 'Saz', 'nil@gmail.com', '444-444-4444', 'gop'),
+    (5, 'Su', 'Naz', 'su@gmail.com', '555-555-5555', 'new york'),
+    (6, 'Kemal', 'Dur', 'kemal@gmail.com', '666-666-6666', 'new york'),
+    (7, 'Ece', 'Naz', 'ece@gmail.com', '777-777-7777', 'paris'),
+    (8, 'Melih', 'Tur', 'melih@gmail.com', '888-888-8888', 'chad'),
+    (9, 'Ali', 'Var', 'ali@gmail.com', '999-999-9999', 'paris'); 
+
+INSERT INTO restaurant (RestaurantID, RestaurantName, CuisineType, RestaurantAddress, ContactNumber)
+VALUES
+    (1, 'I Restaurant', 'Italian', 'Italy', '111-1111'),
+    (2, 'T Restaurant', 'Turkish', 'Turkey', '222-2222'),
+    (3, 'C Restaurant', 'Chinese', 'China', '333-3333');
+
+INSERT INTO staff (StaffID, FirstName, LastName, Position, Email, PhoneNumber, RestaurantID)
+VALUES
+    (1, 'Ceren', 'Ak', 'Chef', 'ceren@gmail.com', '111-555-5555', 1),
+    (2, 'Efe', 'Deli', 'Waiter', 'efe@gmail.com', '111-666-6666', 1),
+    (3, 'Kerem', 'Ali', 'Chef', 'kerem@gmail.com', '222-555-5555', 2),
+    (4, 'Orhun', 'Ali', 'Waiter', 'orhun@gmail.com', '222-666-6666', 2),
+    (5, 'Mina', 'bir', 'Chef', 'mina@gmail.com', '333-555-5555', 3),
+    (6, 'Burak', 'delier', 'Waiter', 'burak@gmail.com', '333-666-6666', 3);
+
+
+
+
+INSERT INTO menu (ItemID, RestaurantID, ItemName, Price, Description)
+VALUES
+    (1, 1, 'Spaghetti', 12.99, 'Classic Italian dish'),
+    (2, 1, 'Pizza', 9.99, 'Can cure depression'),
+    (3, 2, 'Baklava', 8.99, 'Classic Turkish dessert'),
+	(4, 2, 'Kebap', 15.99, 'Classic Turkish meat'),
+    (5, 3, 'Noodle', 6.99, ' Spaghetti but worse '),
+    (6, 3, 'Dog', 5.99, 'Yummy');
